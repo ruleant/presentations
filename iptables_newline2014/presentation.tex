@@ -2,13 +2,8 @@
 \usepackage{hyperref}
 \usepackage[T1]{fontenc}
 \usetheme{Madrid}
-%\usecolortheme[named=PmaPurple]{structure}
-%\setbeamercolor{title}{fg=PmaOrange}
-%\setbeamercolor{frametitle}{fg=PmaOrange}
-%\hypersetup{colorlinks,linkcolor=,urlcolor=PmaOrange}
 \title[Reduce iptables config complexity]{Reducing iptables configuration complexity using chains}
 \author{Dieter Adriaenssens}
-%\institute[phpMyAdmin]{phpMyAdmin developer}
 \date[29Mar2014]{Newline 0x04\\
 Whitespace, Ghent\\
 March 29th, 2014}
@@ -18,8 +13,70 @@ March 29th, 2014}
   \titlepage
   \end{frame}
   \begin{frame}
-    \frametitle{What is iptables}
+    \frametitle{What is iptables?}
     %(question to audience : who knows/uses iptables?)
+    iptables is a tool for creating the rulesets for netfilter, a packet filtering framework which was introduced in the linux 2.4 kernel
+  \end{frame}
+  \begin{frame}
+    \frametitle{Rules}
+    When an IP packet comes in, it is checked against a set of rules.
+    \begin{example}
+      \small{iptables -A INPUT -p tcp --dport ssh -j ACCEPT\\
+      iptables -A INPUT -p tcp --dport http -j ACCEPT\\
+      iptables -A INPUT -p tcp --dport https -j ACCEPT\\
+      iptables -A INPUT -j REJECT}
+    \end{example}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Chains}
+    Predefined chains :
+    \begin{itemize}
+      \item INPUT
+      \item OUTPUT
+      \item FORWARD
+      \item PREROUTING
+      \item POSTROUTING
+    \end{itemize}
+    You can define your own chains
+  \end{frame}
+  \begin{frame}
+    \frametitle{Filters}
+    Filter on packet parameters :
+    \begin{itemize}
+      \item protocol (tcp, udp, icmp, \ldots)
+      \item destination/source port
+      \item destination/source IP address
+      \item in/outgoing interface (eth0, \ldots)
+      \item \ldots
+    \end{itemize}
+    \begin{example}
+      \small{iptables -A INPUT -p tcp --dport ssh -s 10.0.0.0/8 -j ACCEPT}
+    \end{example}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Targets}
+    What to do if a packet matches a rule :
+    \begin{itemize}
+      \item ACCEPT
+      \item DROP
+      \item QUEUE $\rightarrow$ userspace
+      \item RETURN $\rightarrow$ leave current chain
+      \item LOG
+      \item jump to a custom chain
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Putting it all together}
+    \begin{example}
+      \small{iptables -A INPUT -p tcp --dport ssh -j ACCEPT\\
+      iptables -A INPUT -p tcp --dport 80 -j ACCEPT\\
+      iptables -A INPUT -p tcp --dport https -j ACCEPT\\
+      iptables -A INPUT -j REJECT}
+    \end{example}
+    But you can define default behaviour for a predefined chain:
+    \begin{example}
+      \small{iptables -P INPUT DROP}
+    \end{example}
   \end{frame}
   \begin{frame}
    \frametitle{Questions}
