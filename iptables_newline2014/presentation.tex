@@ -148,6 +148,26 @@ March 29th, 2014}
     This makes the rules more manageable, especially when output rules are also defined.
   \end{frame}
   \begin{frame}
+    \frametitle{Realworld example : setup}
+    \begin{itemize}
+      \item Tcp port 80 (http) and 443 (https) is available for all.
+      \item ssh (port 20) and webmin (port 10000), is limited to admin PCs.
+      \item A SMB service is limited to admin and webmaster PCs.
+      \item Some outgoing connections are allowed (dns, dhcp, smtp, ntp).
+      \item Some external websites are reachable.
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Summary}
+    \begin{itemize}
+      \item use ESTABLISHED state to reduce number of rules
+      \item using chains makes your rules easier readable and maintainable
+      \item chains can be reused for several rules
+      \item chains can be chained together
+      \item faster, because it only jumps to a chain when a rule matches
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
    \frametitle{Questions}
     Thanks for your attention!\\
     Questions?\\
