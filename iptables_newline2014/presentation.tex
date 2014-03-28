@@ -233,6 +233,55 @@ March 29th, 2014}
       \item a better overview of the firewall rules.
     \end{itemize}
   \end{frame}
+  \begin{frame}
+    \frametitle{Realworld example : webmaster PCs}
+    Let's do the same for webmasters AND admins having access to SMB.\\
+    Create a chain with webmaster IP addresses :
+    \begin{example}
+      \small{iptables -N webmaster\_IP\\
+      iptables -A webmaster\_IP -s 10.100.2.11 -j ACCEPT\\
+      iptables -A webmaster\_IP -s 10.100.2.17 -j ACCEPT\\
+      iptables -A webmaster\_IP -s 10.100.2.34 -j ACCEPT\\
+      iptables -A webmaster\_IP -j DROP}
+    \end{example}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Realworld example : access to SMB}
+    Add the rules for SMB (tcp port 139 and 445) using the custom chains :
+    \begin{example}
+      \small{iptables -A INPUT -p tcp -m tcp --dport 445 -j admin\_IP\\
+      iptables -A INPUT -p tcp -m tcp --dport 445 -j webmaster\_IP\\
+      iptables -A INPUT -p tcp -m tcp --dport 139 -j admin\_IP\\
+      iptables -A INPUT -p tcp -m tcp --dport 139 -j webmaster\_IP}
+    \end{example}
+  \pause
+  \textbf{This can be optimized!}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Chaining chains}
+    Include the sysadmin chain in the webmaster chain:
+    \begin{example}
+      \small{iptables -N webmaster\_IP\\
+      iptables -A webmaster\_IP -s 10.100.2.11 -j ACCEPT\\
+      iptables -A webmaster\_IP -s 10.100.2.17 -j ACCEPT\\
+      iptables -A webmaster\_IP -s 10.100.2.34 -j ACCEPT\\
+      \sout{iptables -A webmaster\_IP -j DROP}\\
+      iptables -A webmaster\_IP -j admin\_IP}
+    \end{example}
+    Jump to the sysadmin chain at the end of the webmaster chain.\\
+    \textbf{Warning :} check conditions of chain ending
+  \end{frame}
+  \begin{frame}
+    \frametitle{Realworld example : access to SMB}
+    The rules for SMB (tcp port 139 and 445) can be reduced to :
+    \begin{example}
+      \small{\sout{iptables -A INPUT -p tcp -m tcp --dport 445 -j admin\_IP}\\
+      iptables -A INPUT -p tcp -m tcp --dport 445 -j webmaster\_IP\\
+      \sout{iptables -A INPUT -p tcp -m tcp --dport 139 -j admin\_IP}\\
+      iptables -A INPUT -p tcp -m tcp --dport 139 -j webmaster\_IP}
+    \end{example}
+  The admin chain is checked as well because the webmaster chain includes it.
+  \end{frame}
 
   \begin{frame}
     \frametitle{Conclusion}
