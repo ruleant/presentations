@@ -225,9 +225,17 @@ March 29th, 2014}
       iptables -A INPUT -p tcp -m tcp --dport 10000 -j admin\_IP}
     \end{example}
   \end{frame}
+  \begin{frame}
+    \frametitle{Benefits}
+    \begin{itemize}
+      \item the list of IP addresses in the custom chain is reused for both ports, so they have to be defined only once.
+      \item adding/changing/removing an IP address is much easier
+      \item a better overview of the firewall rules.
+    \end{itemize}
+  \end{frame}
 
   \begin{frame}
-    \frametitle{Summary}
+    \frametitle{Conclusion}
     \begin{itemize}
       \item use ESTABLISHED state to reduce number of rules
       \item using chains makes your rules easier readable and maintainable
