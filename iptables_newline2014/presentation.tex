@@ -203,9 +203,10 @@ March 29th, 2014}
   \end{frame}
   \begin{frame}
     \frametitle{Introducing chains}
-    Firstly, create the chain and add the rules
+    Create the chain and add the rules
     \begin{example}
       \small{iptables -N admin\_IP\\
+      \pause
       iptables -A admin\_IP -s 10.100.2.3 -j ACCEPT\\
       iptables -A admin\_IP -s 10.100.2.4 -j ACCEPT\\
       iptables -A admin\_IP -s 10.100.2.7 -j ACCEPT\\
@@ -236,6 +237,7 @@ March 29th, 2014}
   \begin{frame}
     \frametitle{Realworld example : webmaster PCs}
     Let's do the same for webmasters AND admins having access to SMB.\\
+    \pause
     Create a chain with webmaster IP addresses :
     \begin{example}
       \small{iptables -N webmaster\_IP\\
