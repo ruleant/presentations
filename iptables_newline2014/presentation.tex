@@ -151,12 +151,81 @@ March 29th, 2014}
     \frametitle{Realworld example : setup}
     \begin{itemize}
       \item Tcp port 80 (http) and 443 (https) is available for all.
-      \item ssh (port 20) and webmin (port 10000), is limited to admin PCs.
+      \item SSH (port 22) and a webbased admin tool (port 10000), is limited to admin PCs.
       \item A SMB service is limited to admin and webmaster PCs.
       \item Some outgoing connections are allowed (dns, dhcp, smtp, ntp).
       \item Some external websites are reachable.
     \end{itemize}
   \end{frame}
+  \begin{frame}
+    \frametitle{Realworld example : webserver}
+    Webservice, tcp port 80 (http) and 443 (https) is available for all :
+    \begin{example}
+      \small{iptables -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT\\
+      iptables -A INPUT -m tcp -p tcp --dport https -j ACCEPT}
+    \end{example}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Realworld example : sysadmin PCs}
+    Sysadmins are allowed to access SSH (tcp port 22) and a webbased admin tool (tcp port 10000).\\
+    The IP addresses of their PCs :
+    \begin{itemize}
+	\item 10.100.2.3
+	\item 10.100.2.4
+	\item 10.100.2.7
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Realworld example : sysadmin PCs}
+    \begin{example}
+      \small{iptables -A INPUT -p tcp -m tcp -s 10.100.2.3 --dport 22 -j ACCEPT\\
+      iptables -A INPUT -p tcp -m tcp -s 10.100.2.4 --dport 22 -j ACCEPT\\
+      iptables -A INPUT -p tcp -m tcp -s 10.100.2.7 --dport 22 -j ACCEPT\\
+      iptables -A INPUT -p tcp -m tcp -s 10.100.2.3 --dport 10000 -j ACCEPT\\
+      iptables -A INPUT -p tcp -m tcp -s 10.100.2.4 --dport 10000 -j ACCEPT\\
+      iptables -A INPUT -p tcp -m tcp -s 10.100.2.7 --dport 10000 -j ACCEPT}
+    \end{example}
+    \pause
+    The same IP addresses are repeated. If there is a change, several rules have to be updated.\\
+    \pause
+    \textbf{This can be done more efficient!}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Realworld example : sysadmin PCs}
+    Wouldn't it be convenient to :
+    \begin{itemize}
+      \item make a list of IP addresses?
+      \item check this list when a packet matches a rule (fe. TCP port 22)?
+      \item reuse this list when another rule matches a packet?
+    \end{itemize}
+    \pause
+    \textbf{This is possible with chains!}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Introducing chains}
+    Firstly, create the chain and add the rules
+    \begin{example}
+      \small{iptables -N admin\_IP\\
+      iptables -A admin\_IP -s 10.100.2.3 -j ACCEPT\\
+      iptables -A admin\_IP -s 10.100.2.4 -j ACCEPT\\
+      iptables -A admin\_IP -s 10.100.2.7 -j ACCEPT\\
+      iptables -A admin\_IP -j DROP}
+    \end{example}
+    \pause
+    \begin{itemize}[<+->]
+      \item Syntax of adding rules to a custom chain is similar to adding to default targets.
+      \item Custom chains don't have a default target, so set a target for all packets that are not matched.
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Realworld example : sysadmin PCs}
+    Add the rules for TCP port 22 and 10000 using the custom chain :
+    \begin{example}
+      \small{iptables -A INPUT -p tcp -m tcp --dport 22 -j admin\_IP\\
+      iptables -A INPUT -p tcp -m tcp --dport 10000 -j admin\_IP}
+    \end{example}
+  \end{frame}
+
   \begin{frame}
     \frametitle{Summary}
     \begin{itemize}
