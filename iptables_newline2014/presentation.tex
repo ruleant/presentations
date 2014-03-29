@@ -148,6 +148,19 @@ March 29th, 2014}
     This makes the rules more manageable, especially when output rules are also defined.
   \end{frame}
   \begin{frame}
+    \frametitle{Intermezzo : firewall on your PC}
+    Protect your own PC, block all incoming requests :
+    \begin{example}
+      \small{iptables -P INPUT DROP\\
+      iptables -P OUTPUT ACCEPT}\\
+      \pause
+      \small{iptables -A INPUT -i lo -j ACCEPT \# allow local traffic\\
+      iptables -A INPUT -p icmp -j ACCEPT \# allow ping\\
+      iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT}
+    \end{example}
+    Add ESTABLISHED, to allow replies of outgoing connections you intiated!
+  \end{frame}
+  \begin{frame}
     \frametitle{Realworld example : setup}
     \begin{itemize}
       \item Tcp port 80 (http) and 443 (https) is available for all.
