@@ -19,4 +19,4 @@ pdflatex presentation.tex
 
 To create handouts, add "handout" to the class options
 
-\documentclass[14pti,handout]{beamer}
+\documentclass[14pt,handout]{beamer}
