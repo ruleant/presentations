@@ -22,10 +22,10 @@ March 29th, 2014}
     \frametitle{Rules}
     When an IP packet comes in, it is checked against a set of rules.
     \begin{example}
-      \small{iptables -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT\\
-      iptables -A INPUT -m tcp -p tcp --dport http -j ACCEPT\\
-      iptables -A INPUT -m tcp -p tcp --dport https -j ACCEPT\\
-      iptables -A INPUT -j DROP}
+      \small{-A INPUT -m tcp -p tcp --dport ssh -j ACCEPT\\
+      -A INPUT -m tcp -p tcp --dport http -j ACCEPT\\
+      -A INPUT -m tcp -p tcp --dport https -j ACCEPT\\
+      -A INPUT -j DROP}
     \end{example}
   \end{frame}
   \begin{frame}
@@ -70,10 +70,10 @@ March 29th, 2014}
     \frametitle{Putting it all together}
     All rules are checked one for one, and if one matches the target is executed :
     \begin{example}
-      \small{iptables -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT\\
-      iptables -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT\\
-      iptables -A INPUT -m tcp -p tcp --dport https -j ACCEPT\\
-      iptables -A INPUT -j DROP}
+      \small{-A INPUT -m tcp -p tcp --dport ssh -j ACCEPT\\
+      -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT\\
+      -A INPUT -m tcp -p tcp --dport https -j ACCEPT\\
+      -A INPUT -j DROP}
     \end{example}
     The last rule matches everything, so if a packet didn't match a previous rule, it will be rejected.
   \end{frame}
@@ -81,11 +81,11 @@ March 29th, 2014}
     \frametitle{Default target DROP}
     But you can define default target for the predefined chains:
     \begin{example}
-      \small{iptables -P INPUT DROP\\
-      iptables -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT\\
-      iptables -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT\\
-      iptables -A INPUT -m tcp -p tcp --dport https -j ACCEPT\\
-      \sout{iptables -A INPUT -j DROP}}
+      \small{-P INPUT DROP\\
+      -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT\\
+      -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT\\
+      -A INPUT -m tcp -p tcp --dport https -j ACCEPT\\
+      \sout{-A INPUT -j DROP}}
     \end{example}
     If none of the rules match, the default target is executed.\\
     In this example, a packet is dropped.
@@ -95,10 +95,10 @@ March 29th, 2014}
     \textbf{Exercise:}\\
     What happens if the default target is ACCEPT?
     \begin{example}
-      \small{iptables -P INPUT ACCEPT\\
-      iptables -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT\\
-      iptables -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT\\
-      iptables -A INPUT -m tcp -p tcp --dport https -j ACCEPT}
+      \small{-P INPUT ACCEPT\\
+      -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT\\
+      -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT\\
+      -A INPUT -m tcp -p tcp --dport https -j ACCEPT}
     \end{example}
     \pause
     All packets are accepted, even if no rule matches them.\\
@@ -109,11 +109,11 @@ March 29th, 2014}
     \frametitle{Firewall for your server}
     Filter both incoming and outgoing traffic :
     \begin{example}
-      \small{iptables -P INPUT DROP\\
-      iptables -P OUTPUT DROP\\
-      iptables -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT\\
-      iptables -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT\\
-      iptables -A INPUT -m tcp -p tcp --dport https -j ACCEPT}
+      \small{-P INPUT DROP\\
+      -P OUTPUT DROP\\
+      -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT\\
+      -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT\\
+      -A INPUT -m tcp -p tcp --dport https -j ACCEPT}
     \end{example}
     \pause
     \textbf{Problem:} incoming packets are accepted, but replies are dropped!
@@ -122,14 +122,14 @@ March 29th, 2014}
     \frametitle{Firewall for your server}
     Also add rules for outgoing traffic :
     \begin{example}
-      \small{iptables -P INPUT DROP\\
-      iptables -P OUTPUT DROP\\
-      iptables -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT\\
-      iptables -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT\\
-      iptables -A INPUT -m tcp -p tcp --dport https -j ACCEPT\\
-      iptables -A OUTPUT -m tcp -p tcp --sport ssh -j ACCEPT\\
-      iptables -A OUTPUT -m tcp -p tcp --sport 80 -j ACCEPT\\
-      iptables -A OUTPUT -m tcp -p tcp --sport https -j ACCEPT}
+      \small{-P INPUT DROP\\
+      -P OUTPUT DROP\\
+      -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT\\
+      -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT\\
+      -A INPUT -m tcp -p tcp --dport https -j ACCEPT\\
+      -A OUTPUT -m tcp -p tcp --sport ssh -j ACCEPT\\
+      -A OUTPUT -m tcp -p tcp --sport 80 -j ACCEPT\\
+      -A OUTPUT -m tcp -p tcp --sport https -j ACCEPT}
     \end{example}
     \pause
     This can get complicated if more rules are added.
@@ -138,12 +138,12 @@ March 29th, 2014}
     \frametitle{Established state}
     \textbf{Solution:} check for established state
     \begin{example}
-      \small{iptables -P INPUT DROP\\
-      iptables -P OUTPUT DROP\\
-      iptables -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT\\
-      iptables -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT\\
-      iptables -A INPUT -m tcp -p tcp --dport https -j ACCEPT\\
-      iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT}
+      \small{-P INPUT DROP\\
+      -P OUTPUT DROP\\
+      -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT\\
+      -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT\\
+      -A INPUT -m tcp -p tcp --dport https -j ACCEPT\\
+      -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT}
     \end{example}
     This makes the rules more manageable, especially when output rules are also defined.
   \end{frame}
@@ -151,12 +151,12 @@ March 29th, 2014}
     \frametitle{Intermezzo : firewall on your PC}
     Protect your own PC, block all incoming requests :
     \begin{example}
-      \small{iptables -P INPUT DROP\\
-      iptables -P OUTPUT ACCEPT}\\
+      \small{-P INPUT DROP\\
+      -P OUTPUT ACCEPT}\\
       \pause
-      \small{iptables -A INPUT -i lo -j ACCEPT \# allow local traffic\\
-      iptables -A INPUT -p icmp -j ACCEPT \# allow ping\\
-      iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT}
+      \small{-A INPUT -i lo -j ACCEPT \# allow local traffic\\
+      -A INPUT -p icmp -j ACCEPT \# allow ping\\
+      -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT}
     \end{example}
     Add ESTABLISHED, to allow replies of outgoing connections you intiated!
   \end{frame}
@@ -174,8 +174,8 @@ March 29th, 2014}
     \frametitle{Realworld example : webserver}
     Webservice, tcp port 80 (http) and 443 (https) is available for all :
     \begin{example}
-      \small{iptables -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT\\
-      iptables -A INPUT -m tcp -p tcp --dport https -j ACCEPT}
+      \small{-A INPUT -m tcp -p tcp --dport 80 -j ACCEPT\\
+      -A INPUT -m tcp -p tcp --dport https -j ACCEPT}
     \end{example}
   \end{frame}
   \begin{frame}
@@ -191,12 +191,12 @@ March 29th, 2014}
   \begin{frame}
     \frametitle{Realworld example : sysadmin PCs}
     \begin{example}
-      \small{iptables -A INPUT -p tcp -m tcp -s 10.100.2.3 --dport 22 -j ACCEPT\\
-      iptables -A INPUT -p tcp -m tcp -s 10.100.2.4 --dport 22 -j ACCEPT\\
-      iptables -A INPUT -p tcp -m tcp -s 10.100.2.7 --dport 22 -j ACCEPT\\
-      iptables -A INPUT -p tcp -m tcp -s 10.100.2.3 --dport 10000 -j ACCEPT\\
-      iptables -A INPUT -p tcp -m tcp -s 10.100.2.4 --dport 10000 -j ACCEPT\\
-      iptables -A INPUT -p tcp -m tcp -s 10.100.2.7 --dport 10000 -j ACCEPT}
+      \small{-A INPUT -p tcp -m tcp -s 10.100.2.3 --dport 22 -j ACCEPT\\
+      -A INPUT -p tcp -m tcp -s 10.100.2.4 --dport 22 -j ACCEPT\\
+      -A INPUT -p tcp -m tcp -s 10.100.2.7 --dport 22 -j ACCEPT\\
+      -A INPUT -p tcp -m tcp -s 10.100.2.3 --dport 10000 -j ACCEPT\\
+      -A INPUT -p tcp -m tcp -s 10.100.2.4 --dport 10000 -j ACCEPT\\
+      -A INPUT -p tcp -m tcp -s 10.100.2.7 --dport 10000 -j ACCEPT}
     \end{example}
     \pause
     The same IP addresses are repeated. If there is a change in the IP addresses list, several rules have to be updated.\\
@@ -218,12 +218,12 @@ March 29th, 2014}
     \frametitle{Introducing chains}
     Create the chain and add the rules
     \begin{example}
-      \small{iptables -N admin\_IP\\
+      \small{-N admin\_IP\\
       \pause
-      iptables -A admin\_IP -s 10.100.2.3 -j ACCEPT\\
-      iptables -A admin\_IP -s 10.100.2.4 -j ACCEPT\\
-      iptables -A admin\_IP -s 10.100.2.7 -j ACCEPT\\
-      iptables -A admin\_IP -j DROP}
+      -A admin\_IP -s 10.100.2.3 -j ACCEPT\\
+      -A admin\_IP -s 10.100.2.4 -j ACCEPT\\
+      -A admin\_IP -s 10.100.2.7 -j ACCEPT\\
+      -A admin\_IP -j DROP}
     \end{example}
     \pause
     \begin{itemize}[<+->]
@@ -235,8 +235,8 @@ March 29th, 2014}
     \frametitle{Realworld example : sysadmin PCs}
     Add the rules for TCP port 22 and 10000 using the custom chain :
     \begin{example}
-      \small{iptables -A INPUT -p tcp -m tcp --dport 22 -j admin\_IP\\
-      iptables -A INPUT -p tcp -m tcp --dport 10000 -j admin\_IP}
+      \small{-A INPUT -p tcp -m tcp --dport 22 -j admin\_IP\\
+      -A INPUT -p tcp -m tcp --dport 10000 -j admin\_IP}
     \end{example}
   \end{frame}
   \begin{frame}
@@ -253,21 +253,21 @@ March 29th, 2014}
     \pause
     Create a chain with webmaster IP addresses :
     \begin{example}
-      \small{iptables -N webmaster\_IP\\
-      iptables -A webmaster\_IP -s 10.100.2.11 -j ACCEPT\\
-      iptables -A webmaster\_IP -s 10.100.2.17 -j ACCEPT\\
-      iptables -A webmaster\_IP -s 10.100.2.34 -j ACCEPT\\
-      iptables -A webmaster\_IP -j DROP}
+      \small{-N webmaster\_IP\\
+      -A webmaster\_IP -s 10.100.2.11 -j ACCEPT\\
+      -A webmaster\_IP -s 10.100.2.17 -j ACCEPT\\
+      -A webmaster\_IP -s 10.100.2.34 -j ACCEPT\\
+      -A webmaster\_IP -j DROP}
     \end{example}
   \end{frame}
   \begin{frame}
     \frametitle{Realworld example : access to SMB}
     Add the rules for SMB (tcp port 139 and 445) using the custom chains :
     \begin{example}
-      \small{iptables -A INPUT -p tcp -m tcp --dport 445 -j admin\_IP\\
-      iptables -A INPUT -p tcp -m tcp --dport 445 -j webmaster\_IP\\
-      iptables -A INPUT -p tcp -m tcp --dport 139 -j admin\_IP\\
-      iptables -A INPUT -p tcp -m tcp --dport 139 -j webmaster\_IP}
+      \small{-A INPUT -p tcp -m tcp --dport 445 -j admin\_IP\\
+      -A INPUT -p tcp -m tcp --dport 445 -j webmaster\_IP\\
+      -A INPUT -p tcp -m tcp --dport 139 -j admin\_IP\\
+      -A INPUT -p tcp -m tcp --dport 139 -j webmaster\_IP}
     \end{example}
   \pause
   \textbf{This can be optimized!}
@@ -276,12 +276,12 @@ March 29th, 2014}
     \frametitle{Chaining chains}
     Include the sysadmin chain in the webmaster chain:
     \begin{example}
-      \small{iptables -N webmaster\_IP\\
-      iptables -A webmaster\_IP -s 10.100.2.11 -j ACCEPT\\
-      iptables -A webmaster\_IP -s 10.100.2.17 -j ACCEPT\\
-      iptables -A webmaster\_IP -s 10.100.2.34 -j ACCEPT\\
-      \sout{iptables -A webmaster\_IP -j DROP}\\
-      iptables -A webmaster\_IP -j admin\_IP}
+      \small{-N webmaster\_IP\\
+      -A webmaster\_IP -s 10.100.2.11 -j ACCEPT\\
+      -A webmaster\_IP -s 10.100.2.17 -j ACCEPT\\
+      -A webmaster\_IP -s 10.100.2.34 -j ACCEPT\\
+      \sout{-A webmaster\_IP -j DROP}\\
+      -A webmaster\_IP -j admin\_IP}
     \end{example}
     Jump to the sysadmin chain at the end of the webmaster chain.\\
     \textbf{Warning :} check conditions of chain ending
@@ -290,10 +290,10 @@ March 29th, 2014}
     \frametitle{Realworld example : access to SMB}
     The rules for SMB (tcp port 139 and 445) can be reduced to :
     \begin{example}
-      \small{\sout{iptables -A INPUT -p tcp -m tcp --dport 445 -j admin\_IP}\\
-      iptables -A INPUT -p tcp -m tcp --dport 445 -j webmaster\_IP\\
-      \sout{iptables -A INPUT -p tcp -m tcp --dport 139 -j admin\_IP}\\
-      iptables -A INPUT -p tcp -m tcp --dport 139 -j webmaster\_IP}
+      \small{\sout{-A INPUT -p tcp -m tcp --dport 445 -j admin\_IP}\\
+      -A INPUT -p tcp -m tcp --dport 445 -j webmaster\_IP\\
+      \sout{-A INPUT -p tcp -m tcp --dport 139 -j admin\_IP}\\
+      -A INPUT -p tcp -m tcp --dport 139 -j webmaster\_IP}
     \end{example}
   The admin chain is checked as well because the webmaster chain includes it.
   \end{frame}
