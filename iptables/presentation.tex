@@ -174,7 +174,7 @@ May 8th, 2014}
     Add ESTABLISHED, to allow replies of outgoing connections you intiated!
   \end{frame}
   \begin{frame}
-    \frametitle{Realworld example : setup}
+    \frametitle{Tutorial example : setup}
     \begin{itemize}
       \item Tcp port 80 (http) and 443 (https) is available for all.
       \item SSH (port 22) and a webbased admin tool (port 10000), is limited to admin PCs.
@@ -184,7 +184,7 @@ May 8th, 2014}
     \end{itemize}
   \end{frame}
   \begin{frame}
-    \frametitle{Realworld example : webserver}
+    \frametitle{Tutorial example : webserver}
     Webservice, tcp port 80 (http) and 443 (https) is available for all :
     \begin{example}
       \small{-A INPUT -m tcp -p tcp --dport 80 -j ACCEPT\\
@@ -192,7 +192,7 @@ May 8th, 2014}
     \end{example}
   \end{frame}
   \begin{frame}
-    \frametitle{Realworld example : sysadmin PCs}
+    \frametitle{Tutorial example : sysadmin PCs}
     Sysadmins are allowed to access SSH (tcp port 22) and a webbased admin tool (tcp port 10000).\\
     The IP addresses of their PCs :
     \begin{itemize}
@@ -202,7 +202,7 @@ May 8th, 2014}
     \end{itemize}
   \end{frame}
   \begin{frame}
-    \frametitle{Realworld example : sysadmin PCs}
+    \frametitle{Tutorial example : sysadmin PCs}
     \begin{example}
       \small{-A INPUT -p tcp -m tcp -s 10.100.2.3 --dport 22 -j ACCEPT\\
       -A INPUT -p tcp -m tcp -s 10.100.2.4 --dport 22 -j ACCEPT\\
@@ -217,7 +217,7 @@ May 8th, 2014}
     \textbf{This can be done more efficient!}
   \end{frame}
   \begin{frame}
-    \frametitle{Realworld example : sysadmin PCs}
+    \frametitle{Tutorial example : sysadmin PCs}
     Wouldn't it be convenient to :
     \begin{itemize}
       \item make a list of IP addresses?
@@ -245,7 +245,7 @@ May 8th, 2014}
     \end{itemize}
   \end{frame}
   \begin{frame}
-    \frametitle{Realworld example : sysadmin PCs}
+    \frametitle{Tutorial example : sysadmin PCs}
     Add the rules for TCP port 22 and 10000 using the custom chain :
     \begin{example}
       \small{-A INPUT -p tcp -m tcp --dport 22 -j admin\_IP\\
@@ -261,7 +261,7 @@ May 8th, 2014}
     \end{itemize}
   \end{frame}
   \begin{frame}
-    \frametitle{Realworld example : webmaster PCs}
+    \frametitle{Tutorial example : webmaster PCs}
     Let's do the same for webmasters AND admins having access to SMB.\\
     \pause
     Create a chain with webmaster IP addresses :
@@ -274,7 +274,7 @@ May 8th, 2014}
     \end{example}
   \end{frame}
   \begin{frame}
-    \frametitle{Realworld example : access to SMB}
+    \frametitle{Tutorial example : access to SMB}
     Add the rules for SMB (tcp port 139 and 445) using the custom chains :
     \begin{example}
       \small{-A INPUT -p tcp -m tcp --dport 445 -j admin\_IP\\
@@ -300,7 +300,7 @@ May 8th, 2014}
     \textbf{Warning :} check conditions of ending chains
   \end{frame}
   \begin{frame}
-    \frametitle{Realworld example : access to SMB}
+    \frametitle{Tutorial example : access to SMB}
     The rules for SMB (tcp port 139 and 445) can be reduced to :
     \begin{example}
       \small{\sout{-A INPUT -p tcp -m tcp --dport 445 -j admin\_IP}\\
