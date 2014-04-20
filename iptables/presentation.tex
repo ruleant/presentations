@@ -96,11 +96,11 @@ May 8th, 2014}
     \frametitle{Default target DROP}
     But you can define default target for the predefined chains:
     \begin{example}
-      \small{-P INPUT DROP\\
+      \small{{\color{blue}-P INPUT DROP}\\
       -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT\\
       -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT\\
       -A INPUT -m tcp -p tcp --dport https -j ACCEPT\\
-      \sout{-A INPUT -j DROP}}
+      \sout{{\color{red}-A INPUT -j DROP}}}
     \end{example}
     If none of the rules match, the default target is executed.\\
     In this example, a packet is dropped.
