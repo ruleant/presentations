@@ -22,10 +22,10 @@ May 8th, 2014}
     \frametitle{Rules}
     When an IP packet comes in, it is checked against a set of rules.
     \begin{example}
-      \small{-A INPUT -m tcp -p tcp --dport ssh -j ACCEPT\\
-      -A INPUT -m tcp -p tcp --dport http -j ACCEPT\\
-      -A INPUT -m tcp -p tcp --dport https -j ACCEPT\\
-      -A INPUT -j DROP}
+      \small{iptables -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT\\
+      iptables -A INPUT -m tcp -p tcp --dport http -j ACCEPT\\
+      iptables -A INPUT -m tcp -p tcp --dport https -j ACCEPT\\
+      iptables -A INPUT -j DROP}
     \end{example}
   \end{frame}
   \begin{frame}
@@ -38,6 +38,9 @@ May 8th, 2014}
       \item PREROUTING
       \item POSTROUTING
     \end{itemize}
+    \begin{example}
+      \small{iptables -A \textbf{INPUT} -m tcp -p tcp --dport ssh -j ACCEPT}
+    \end{example}
     You can define your own chains
   \end{frame}
   \begin{frame}
@@ -51,7 +54,7 @@ May 8th, 2014}
       \item \ldots
     \end{itemize}
     \begin{example}
-      \small{iptables -A INPUT -m tcp -p tcp --dport ssh -s 10.0.0.0/8 -j ACCEPT}
+      \small{iptables -A INPUT \textbf{-m tcp -p tcp --dport ssh -s 10.0.0.0/8} -j ACCEPT}
     \end{example}
   \end{frame}
   \begin{frame}
@@ -65,15 +68,18 @@ May 8th, 2014}
       \item LOG
       \item jump to a custom chain
     \end{itemize}
+    \begin{example}
+      \small{iptables -A INPUT -m tcp -p tcp --dport ssh \textbf{-j ACCEPT}}
+    \end{example}
   \end{frame}
   \begin{frame}
     \frametitle{Putting it all together}
     All rules are checked one for one, and if one matches the target is executed :
     \begin{example}
-      \small{-A INPUT -m tcp -p tcp --dport ssh -j ACCEPT\\
-      -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT\\
-      -A INPUT -m tcp -p tcp --dport https -j ACCEPT\\
-      -A INPUT -j DROP}
+      \small{iptables -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT\\
+      iptables -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT\\
+      iptables -A INPUT -m tcp -p tcp --dport https -j ACCEPT\\
+      iptables -A INPUT -j DROP}
     \end{example}
     The last rule matches everything, so if a packet didn't match a previous rule, it will be rejected.
   \end{frame}
