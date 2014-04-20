@@ -88,8 +88,10 @@ May 8th, 2014}
       iptables -A INPUT -m tcp -p tcp --dport https -j ACCEPT\\
       iptables -A INPUT -j DROP}
     \end{example}
-    The last rule matches everything, so if a packet didn't match a previous rule, it will be rejected.
-  \end{frame}
+    The last rule matches everything, so if a packet didn't match a previous rule, it will be rejected.\\
+    \pause
+    \textbf{Remark:} the order of the rules is important
+ \end{frame}
   \begin{frame}
     \frametitle{Default target DROP}
     But you can define default target for the predefined chains:
