@@ -142,9 +142,9 @@ May 8th, 2014}
       -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT\\
       -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT\\
       -A INPUT -m tcp -p tcp --dport https -j ACCEPT\\
-      -A OUTPUT -m tcp -p tcp --sport ssh -j ACCEPT\\
+      {\color{blue}-A OUTPUT -m tcp -p tcp --sport ssh -j ACCEPT\\
       -A OUTPUT -m tcp -p tcp --sport 80 -j ACCEPT\\
-      -A OUTPUT -m tcp -p tcp --sport https -j ACCEPT}
+      -A OUTPUT -m tcp -p tcp --sport https -j ACCEPT}}
     \end{example}
     \pause
     This can get complicated if more rules are added.
@@ -158,7 +158,7 @@ May 8th, 2014}
       -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT\\
       -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT\\
       -A INPUT -m tcp -p tcp --dport https -j ACCEPT\\
-      -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT}
+      {\color{blue}-A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT}}
     \end{example}
     This makes the rules more manageable, especially when output rules are also defined.
   \end{frame}
@@ -295,8 +295,8 @@ May 8th, 2014}
       -A webmaster\_IP -s 10.100.2.11 -j ACCEPT\\
       -A webmaster\_IP -s 10.100.2.17 -j ACCEPT\\
       -A webmaster\_IP -s 10.100.2.34 -j ACCEPT\\
-      \sout{-A webmaster\_IP -j DROP}\\
-      -A webmaster\_IP -j admin\_IP}
+      \sout{{\color{red}-A webmaster\_IP -j DROP}}\\
+      {\color{blue}-A webmaster\_IP -j admin\_IP}}
     \end{example}
     Jump to the sysadmin chain at the end of the webmaster chain.\\
     \textbf{Warning :} check conditions of ending chains
@@ -305,9 +305,9 @@ May 8th, 2014}
     \frametitle{Tutorial example : access to SMB}
     The rules for SMB (tcp port 139 and 445) can be reduced to :
     \begin{example}
-      \small{\sout{-A INPUT -p tcp -m tcp --dport 445 -j admin\_IP}\\
+      \small{\sout{{\color{red}-A INPUT -p tcp -m tcp --dport 445 -j admin\_IP}}\\
       -A INPUT -p tcp -m tcp --dport 445 -j webmaster\_IP\\
-      \sout{-A INPUT -p tcp -m tcp --dport 139 -j admin\_IP}\\
+      \sout{{\color{red}-A INPUT -p tcp -m tcp --dport 139 -j admin\_IP}}\\
       -A INPUT -p tcp -m tcp --dport 139 -j webmaster\_IP}
     \end{example}
   The admin chain is checked as well because the webmaster chain includes it.
