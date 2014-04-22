@@ -15,11 +15,11 @@ Usage
 
 To compile a tex file and generate a pdf :
 
-pdflatex presentation.tex
+`pdflatex presentation.tex`
 
 To create handouts, add "handout" to the class options
 
-\documentclass[14pt,handout]{beamer}
+    \documentclass[14pt,handout]{beamer}
 
 License
 -------
