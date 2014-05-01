@@ -11,8 +11,7 @@ Ghent University, Belgium}
 May 8th, 2014}
 \maketitle
 
-\tableofcontents
-
+\pagebreak
 \section{Abstract}
 
 The goal is to show how to reduce complexity of an iptables configuration, by adding structure to it using chains and as a result making it more maintainable, and faster.
@@ -26,5 +25,8 @@ The result is a set of rules that looks less complex, because you get a better s
 The testcase used for the examples will be a server setup with some basic services and ports (http(s), ssh, smb and a webbased management tool) and different groups of IP-addresses/ranges that can access those services (general public, sysadmins, webmasters). In the example, several chains will be reused and combined to connect the different chains to the different protocols. Fe. the sysadmins should have access to ssh, smb and the webbased management tool, while the webmasters only need smb.
 
 The audience should have a basic understanding of network concepts like protocols, ports, IP-addresses and packets.
+
+\pagebreak
+\tableofcontents
 
 \end{document}
