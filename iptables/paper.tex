@@ -1,0 +1,30 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{caption}
+\begin{document}
+\title{Reducing iptables configuration complexity using chains}
+\author{Dieter Adriaenssens\\
+Ghent University, Belgium}
+\date{LinuxTag - Berlin\\
+May 8th, 2014}
+\maketitle
+
+\tableofcontents
+
+\section{Abstract}
+
+The goal is to show how to reduce complexity of an iptables configuration, by adding structure to it using chains and as a result making it more maintainable, and faster.
+
+Iptables is the most used local firewall configuring system on linux systems. It is basically a tool for creating the rulesets for netfilter, a packet filtering framework which was introduced in the linux 2.4 kernel. After first explaining the basics about how iptables/netfilter works (rules, targets, the different filters you can set), we get on to the concept of chains, mentioning the default chains (INPUT, OUTPUT, FORWARD) and that custom chains can be created.
+
+Then by using some examples, it is explained how to define different rules to filter traffic and how this can quickly become complex and hard to maintain. By grouping rules with similar parameters (fe. the same protocol and/or port), the rule could filter on the similar part and then target a custom chain, where a set of rules is created that only filter the specific information (like an IP address). The targetted chains can even be combined or reused for several rules. But when doing so one should be beware of the way netfilter behaves when the end of a chain is reached.
+
+The result is a set of rules that looks less complex, because you get a better structured set of rules that point to different chains (with appropriately chosen names). It is more maintainable, because adding a new rule (fe. a new IP address that is allowed to connect to TCP port 22), means just adding a rule that filters on that IP address to the right chain. And it runs faster because only a subset of the filter rules has to be checked.
+
+The testcase used for the examples will be a server setup with some basic services and ports (http(s), ssh, smb and a webbased management tool) and different groups of IP-addresses/ranges that can access those services (general public, sysadmins, webmasters). In the example, several chains will be reused and combined to connect the different chains to the different protocols. Fe. the sysadmins should have access to ssh, smb and the webbased management tool, while the webmasters only need smb.
+
+The audience should have a basic understanding of network concepts like protocols, ports, IP-addresses and packets.
+
+\end{document}
