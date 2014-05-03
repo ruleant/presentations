@@ -95,6 +95,14 @@ As you can see, there is are several benefits of putting the IP addresses in a s
 \end{itemize}
 
 \section{Optimizing configuration with an example setup}
+\subsection{Example definition}
+\begin{itemize}
+  \item A web service should be available from all networks (i.e. internet) on port 80 (http) and 443 (https)
+  \item The server can be managed remotely using ssh (port 20) and webmin (port 10000), but only from a limited set of IP addresses (admin PC's).
+  \item The server hosts a samba service (several TCP ports), that should only be available from a limited set of IP addresses (admin + webmaster PC's).
+  \item Outgoing connections will be filtered, but some services should be allowed (dns, dhcp, smtp, ntp) and some external websites should be available to get updates.
+\end{itemize}
+
 \subsection{Actual configuration}
 
 \subsubsection{INPUT chain}
