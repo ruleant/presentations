@@ -37,6 +37,30 @@ And if you want to filter the outgoing traffic as well, your iptables rules get 
 
 To make your rules more manageable, you can make use of chains in your iptables rules. This paper is inspired by an article that uses chains to make iptables more efficient (faster). The goal of this paper is to get iptables rules that are easier to read and configure, but it will result in faster handling of packets as well.\\
 \section{Brief introduction to iptables}
+\subsection{ESTABLISHED state}
+When using this option, you can filter for established connections. If you define it in both the INPUT and OUTPUT rules, you only have to define in the INPUT rules which NEW incoming requests should be allowed, and in the OUTPUT rules which NEW outgoing request are allowed. The established connections will be allowed and should not be redefined (making the configuration a lot more readable and maintainable). An example allowing only an ssh service without using the ESTABLISHED state would be :
+\begin{verbatim}
+  iptables -A INPUT -p tcp --dport ssh -j ACCEPT
+  iptables -A INPUT -j REJECT
+  iptables -A OUTPUT -p tcp --sport ssh -j ACCEPT
+  iptables -A OUTPUT -j REJECT}
+\end{verbatim}
+
+Basically, every incoming/outgoing connection is dropped, except if the incoming packet has port 22 (ssh) as destination, or if the outgoing packet was sent from port 22 (which is the reply of the ssh server).\\
+
+When using ESTABLISHED state, this will become :
+\begin{verbatim}
+  iptables -A INPUT -p tcp --dport ssh -j ACCEPT
+  iptables -A INPUT -j REJECT
+  iptables -A OUTPUT -m state --state ESTABLISHED -j ACCEPT
+  iptables -A OUTPUT -j REJECT
+\end{verbatim}
+
+Now, every incoming/outgoing connection is dropped, except if the incoming packet has port 22 (ssh) as destination, or if the packet belongs to an established connection. Because incoming connections to port 22 are allowed, the firewall will remember a packet coming in, creating a 'connection' for the host/port the packet originates from when the ssh server replies to it. So when the reply of the ssh server is sent out, it matches an 'established' connection and will be allowed out.\\
+
+In this example, the benefit of using the connection state is not clear, but when more allowed incoming services are added, they only have to be added on the INPUT chain, but not on the OUTPUT chain, because they are covered by the ESTABLISHED rule.\\
+In the first example (without the ESTABLISHED rule), every allowed incoming connection should be repeated in the OUTPUT chain, matching the packets sent for the outgoing connection, which results in an equal amount of rules on both chains.\\
+If you want to do filtering in both directions (allowing incoming request for listening services and outgoing request for remote services), this can become very messy, and almost unmaintainable without making mistakes.\\
 \section{Optimizing configuration with an example setup}
 \section{Conclusion}
 
