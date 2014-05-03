@@ -29,4 +29,15 @@ The audience should have a basic understanding of network concepts like protocol
 \pagebreak
 \tableofcontents
 
+\section{Introduction}
+Setting up a firewall on your *nix box, being it a workstation, laptop, or server, is always a good idea. In most cases, you can do with some simple firewall rules, f.e. on your laptop, block all incoming requests (except the established connections, i.e. the replies on the outgoing requests you made), or on a simple webserver (allow port 80 only).\\
+
+But if you need more complex rules, f.e. a server that hosts a website available for the entire internet, but with an ssh and samba service that should only be available for the local subnet, or even some specific IP addresses, it becomes a bit more complex.\\
+And if you want to filter the outgoing traffic as well, your iptables rules get a mess after a while, and when you want to change anything, chances of a mistake or forgetting something are high, which may result in locking yourself out of your box (at least for remote access), or leaving something open that shouldn't.\\
+
+To make your rules more manageable, you can make use of chains in your iptables rules. This paper is inspired by an article that uses chains to make iptables more efficient (faster). The goal of this paper is to get iptables rules that are easier to read and configure, but it will result in faster handling of packets as well.\\
+\section{Brief introduction to iptables}
+\section{Optimizing configuration with an example setup}
+\section{Conclusion}
+
 \end{document}
