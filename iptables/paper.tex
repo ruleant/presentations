@@ -36,6 +36,7 @@ But if you need more complex rules, f.e. a server that hosts a website available
 And if you want to filter the outgoing traffic as well, your iptables rules get a mess after a while, and when you want to change anything, chances of a mistake or forgetting something are high, which may result in locking yourself out of your box (at least for remote access), or leaving something open that shouldn't.\\
 
 To make your rules more manageable, you can make use of chains in your iptables rules. This paper is inspired by an article that uses chains to make iptables more efficient (faster). The goal of this paper is to get iptables rules that are easier to read and configure, but it will result in faster handling of packets as well.\\
+
 \section{Brief introduction to iptables}
 \subsection{ESTABLISHED state}
 When using this option, you can filter for established connections. If you define it in both the INPUT and OUTPUT rules, you only have to define in the INPUT rules which NEW incoming requests should be allowed, and in the OUTPUT rules which NEW outgoing request are allowed. The established connections will be allowed and should not be redefined (making the configuration a lot more readable and maintainable). An example allowing only an ssh service without using the ESTABLISHED state would be :
@@ -61,6 +62,46 @@ Now, every incoming/outgoing connection is dropped, except if the incoming packe
 In this example, the benefit of using the connection state is not clear, but when more allowed incoming services are added, they only have to be added on the INPUT chain, but not on the OUTPUT chain, because they are covered by the ESTABLISHED rule.\\
 In the first example (without the ESTABLISHED rule), every allowed incoming connection should be repeated in the OUTPUT chain, matching the packets sent for the outgoing connection, which results in an equal amount of rules on both chains.\\
 If you want to do filtering in both directions (allowing incoming request for listening services and outgoing request for remote services), this can become very messy, and almost unmaintainable without making mistakes.\\
+
+\subsection{Introducing chains}
+When two services (on different ports) should be available to a limited but identical list of IP addresses.
+Without using chains, for every combination of port and IP a rule should be created :
+\begin{verbatim}
+  iptables -A INPUT -p tcp -m tcp -s 10.100.2.3 --dport 22 -j ACCEPT
+  iptables -A INPUT -p tcp -m tcp -s 10.100.2.4 --dport 22 -j ACCEPT
+  iptables -A INPUT -p tcp -m tcp -s 10.100.2.7 --dport 22 -j ACCEPT
+
+  iptables -A INPUT -p tcp -m tcp -s 10.100.2.3 --dport 10000 -j ACCEPT
+  iptables -A INPUT -p tcp -m tcp -s 10.100.2.4 --dport 10000 -j ACCEPT
+  iptables -A INPUT -p tcp -m tcp -s 10.100.2.7 --dport 10000 -j ACCEPT
+\end{verbatim}
+
+Resulting in a lot of rules, and when an IP address has to be changed, added or removed, this has to be done for every corresponding rule.\\
+
+When using chains, this can be much easier. Imagine, that you first check if the packet matches the destination port, and if it does, jump to a new chain, where a list of IP addresses is checked. :
+\begin{verbatim}
+  // create new chain admin_IP
+  iptables -N admin_IP
+
+  // add rules to chain admin_IP
+  iptables -A admin_IP -s 10.100.2.3 -j ACCEPT
+  iptables -A admin_IP -s 10.100.2.4 -j ACCEPT
+  iptables -A admin_IP -s 10.100.2.7 -j ACCEPT
+  // drop all packets that are not matched by previous rules
+  iptables -A admin_IP -j DROP
+
+  // filter ports in INPUT chain
+  iptables -A INPUT -p tcp -m tcp --dport 22 -j admin_IP
+  iptables -A INPUT -p tcp -m tcp --dport 10000 -j admin_IP
+\end{verbatim}
+
+As you can see, there is are several benefits of putting the IP addresses in a separate chain :
+\begin{itemize}
+    \item the list of IP addresses in the separate chain can be reused for both ports, so they have to be defined only once.
+    \item adding/changing/removing an IP address is much easier
+    \item there is a better overview of the firewall rules
+\end{itemize}
+
 \section{Optimizing configuration with an example setup}
 \section{Conclusion}
 
