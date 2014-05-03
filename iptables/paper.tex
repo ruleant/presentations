@@ -44,7 +44,7 @@ When using this option, you can filter for established connections. If you defin
   iptables -A INPUT -p tcp --dport ssh -j ACCEPT
   iptables -A INPUT -j REJECT
   iptables -A OUTPUT -p tcp --sport ssh -j ACCEPT
-  iptables -A OUTPUT -j REJECT}
+  iptables -A OUTPUT -j REJECT
 \end{verbatim}
 
 Basically, every incoming/outgoing connection is dropped, except if the incoming packet has port 22 (ssh) as destination, or if the outgoing packet was sent from port 22 (which is the reply of the ssh server).\\
