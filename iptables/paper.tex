@@ -95,6 +95,132 @@ As you can see, there is are several benefits of putting the IP addresses in a s
 \end{itemize}
 
 \section{Optimizing configuration with an example setup}
+\subsection{Actual configuration}
+
+\subsubsection{INPUT chain}
+
+\begin{verbatim}
+  iptables -A INPUT -i lo -j ACCEPT
+  iptables -A INPUT -m state --state ESTABLISHED -j ACCEPT
+  iptables -A INPUT -m state --state RELATED -j ACCEPT
+  iptables -A INPUT -p icmp -j icmp_in
+  iptables -A INPUT -p tcp -m tcp --dport 22 -j admin_IP
+  iptables -A INPUT -p tcp -m tcp --dport 10000 -j admin_IP
+  iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+  iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
+  iptables -A INPUT -p tcp -m tcp --dport 139 -j webmaster_IP
+  iptables -A INPUT -p tcp -m tcp --dport 445 -j webmaster_IP
+  iptables -A INPUT -j DROP
+\end{verbatim}
+
+This is the INPUT chain, allowing :
+\begin{itemize}
+  \item all local traffic (not leaving the physical PC)
+  \item established and related connections
+  \item ICMP packets (ping, etc.) are handled in a seperate chain icmp\_in
+  \item some services
+  \begin{itemize}
+    \item ssh (tcp 22) and webmin (tcp 10000) allowed for admins (admin\_IP chain)
+    \item website (tcp 80 and 443) for everybody
+    \item samba (tcp 139 and 445) for webmasters (and admins, see definition of webmaster\_IP chain)
+  \end{itemize}
+  \item everything else is not allowed (dropped)
+\end{itemize}
+
+\subsubsection{OUTPUT chain}
+
+\begin{verbatim}
+  iptables -A OUTPUT -o lo -j ACCEPT
+  iptables -A OUTPUT -m state --state ESTABLISHED -j ACCEPT
+  iptables -A OUTPUT -m state --state RELATED -j ACCEPT
+  iptables -A OUTPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT
+  iptables -A OUTPUT -p udp -m udp --dport 53 -j ACCEPT
+  iptables -A OUTPUT -p udp -m udp --dport 67 -j ACCEPT
+  iptables -A OUTPUT -p tcp -m tcp --dport 25 -j ACCEPT
+  iptables -A OUTPUT -p udp -m udp --dport 123 -j ACCEPT
+  iptables -A OUTPUT -p tcp -m tcp --dport 80 -j ext_websites
+  iptables -A OUTPUT -j DROP
+\end{verbatim}
+
+The OUTPUT chain, allowing :
+\begin{itemize}
+  \item all local traffic (not leaving the physical PC)
+  \item established and related connections
+  \item ICMP replies
+  \item some remote services (destination IP addresses of hosting servers are not checked)
+  \begin{itemize}
+    \item dns (udp 53) server
+    \item dhcp (udp 67)
+    \item smtp (tcp 25)
+    \item ntp (udp 123)
+  \end{itemize}
+  \item external websites (tcp 80), listed in chain ext\_websites
+  \item everything else is not allowed (dropped)
+\end{itemize}
+
+\subsubsection{icmp in chain}
+
+\begin{verbatim}
+  iptables -N icmp_in
+  iptables -A icmp_in -p icmp -m icmp --icmp-type 8 -j ACCEPT
+  iptables -A icmp_in -p icmp -m icmp --icmp-type 0 -j ACCEPT
+  iptables -A icmp_in -p icmp -m icmp --icmp-type 3 -j ACCEPT
+  iptables -A icmp_in -p icmp -m icmp --icmp-type 4 -j ACCEPT
+  iptables -A icmp_in -p icmp -m icmp --icmp-type 11 -j ACCEPT
+  iptables -A icmp_in -p icmp -m icmp --icmp-type 12 -j ACCEPT
+  iptables -A icmp_in -j DROP
+\end{verbatim}
+
+All allowed incoming ICMP message types.
+
+\subsubsection{admin IP chain}
+
+\begin{verbatim}
+  iptables -N admin_IP
+  iptables -A admin_IP -s 10.100.2.3 -j ACCEPT
+  iptables -A admin_IP -s 10.100.2.4 -j ACCEPT
+  iptables -A admin_IP -s 10.100.2.7 -j ACCEPT
+  iptables -A admin_IP -j DROP
+\end{verbatim}
+
+A list of allowed IP addresses of admin PC's. Everything else is not allowed.
+
+\subsubsection{webmaster IP chain}
+
+\begin{verbatim}
+  iptables -N webmaster_IP
+  iptables -A webmaster_IP -s 10.100.2.11 -j ACCEPT
+  iptables -A webmaster_IP -s 10.100.2.17 -j ACCEPT
+  iptables -A webmaster_IP -s 10.100.2.34 -j ACCEPT
+  iptables -A webmaster_IP -s 10.100.2.50 -j ACCEPT
+  iptables -A webmaster_IP -j admin_IP
+\end{verbatim}
+
+A list of allowed IP addresses of webmaster PC's.
+At the end of the list, it jumps to the admin\_IP chain, chaining both chains.
+
+
+\subsubsection{external websites chain}
+
+\begin{verbatim}
+  iptables -N ext_websites
+  iptables -A ext_websites -d 212.211.132.250 -j ACCEPT
+  iptables -A ext_websites -d 212.211.132.32 -j ACCEPT
+  iptables -A ext_websites -d 195.20.242.89 -j ACCEPT
+  iptables -A ext_websites -d 130.89.149.225 -j ACCEPT
+  iptables -A ext_websites -d 86.59.118.153 -j ACCEPT
+  iptables -A ext_websites -d 130.89.149.227 -j ACCEPT
+  iptables -A ext_websites -d 128.31.0.51 -j ACCEPT
+  iptables -A ext_websites -d 86.59.118.153 -j ACCEPT
+  iptables -A ext_websites -d 67.228.198.100 -j ACCEPT
+  iptables -A ext_websites -d 140.211.166.6 -j ACCEPT
+  iptables -A ext_websites -d 140.211.166.21 -j ACCEPT
+  iptables -A ext_websites -j LOG
+\end{verbatim}
+
+A list of allowed external websites for updates (mirrors of Debian, webmin and Drupal, in this example).
+All other requests for external websites are logged. This can be useful for monitoring : notification of abuse, or if you forgot to add an allowed website.i
+
 \section{Conclusion}
 
 \end{document}
