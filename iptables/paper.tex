@@ -43,6 +43,39 @@ And if you want to filter the outgoing traffic as well, your iptables rules get 
 To make your rules more manageable, you can make use of chains in your iptables rules. This paper is inspired by an article that uses chains to make iptables more efficient (faster). The goal of this paper is to get iptables rules that are easier to read and configure, but it will result in faster handling of packets as well.\\
 
 \section{Brief introduction to iptables}
+  Iptables is a tool for creating the rulesets for netfilter, a packet filtering framework which was introduced in the linux 2.4 kernel.\\
+
+  Netfilter is rule based. When an IP packet arrives, it is checked against a set of rules, fe. :
+  \begin{verbatim}
+    iptables -A INPUT -m tcp -p tcp \dd dport ssh -j ACCEPT
+    iptables -A INPUT -m tcp -p tcp \dd dport http -j ACCEPT
+    iptables -A INPUT -m tcp -p tcp \dd dport https -j ACCEPT
+    iptables -A INPUT -j DROP
+  \end{verbatim}
+
+  Every rule consists of several parts :
+  \begin{itemize}
+    \item the chain the rule belongs to
+    \item parameters filtering for a type of packet
+    \item the target : action to be taken when a packet matches
+  \end{itemize}
+
+  \subsection{Chains}
+    There are several predefined chains :
+    \begin{itemize}
+      \item INPUT
+      \item OUTPUT
+      \item FORWARD
+      \item PREROUTING
+      \item POSTROUTING
+    \end{itemize}
+    Defining custom chains is also possible.\\
+    
+    In this example, the rule is added to the INPUT chain :
+    \begin{verbatim}
+iptables -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT
+    \end{verbatim}
+
 \subsection{ESTABLISHED state}
 When using this option, you can filter for established connections. If you define it in both the INPUT and OUTPUT rules, you only have to define in the INPUT rules which NEW incoming requests should be allowed, and in the OUTPUT rules which NEW outgoing request are allowed. The established connections will be allowed and should not be redefined (making the configuration a lot more readable and maintainable). An example allowing only an SSH service without using the ESTABLISHED state would be :
 \begin{verbatim}
