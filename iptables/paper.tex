@@ -76,7 +76,10 @@ To make your rules more manageable, you can make use of chains in your iptables 
 iptables -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT
     \end{verbatim}
 
-\subsection{ESTABLISHED state}
+  \subsection{Filters}
+  \subsection{Targets}
+
+  \subsection{ESTABLISHED state}
 When using this option, you can filter for established connections. If you define it in both the INPUT and OUTPUT rules, you only have to define in the INPUT rules which NEW incoming requests should be allowed, and in the OUTPUT rules which NEW outgoing request are allowed. The established connections will be allowed and should not be redefined (making the configuration a lot more readable and maintainable). An example allowing only an SSH service without using the ESTABLISHED state would be :
 \begin{verbatim}
   iptables -A INPUT -p tcp --dport ssh -j ACCEPT
