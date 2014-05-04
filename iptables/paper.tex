@@ -120,6 +120,17 @@ iptables -A INPUT -j DROP
     The last rule matches everything, so if a packet didn't match a previous rule, it will be rejected.\\
     \textbf{Remark:} the order of the rules is important.
 
+\newpage
+
+\section{Optimizing configuration}
+\subsection{Example setup definition}
+\begin{itemize}
+  \item A web service should be available from all networks (i.e. internet) on port 80 (http) and 443 (https)
+  \item The server can be managed remotely using SSH (port 22) and a webbased admin tool (port 10000), but only from a limited set of IP addresses (admin PC's).
+  \item The server hosts a samba service (several TCP ports), that should only be available from a limited set of IP addresses (admin + webmaster PC's).
+  \item Outgoing connections will be filtered, but some services should be allowed (DNS, DHCP, SMTP, NTP) and some external websites should be available to get updates.
+\end{itemize}
+
   \subsection{ESTABLISHED state}
 When using this option, you can filter for established connections. If you define it in both the INPUT and OUTPUT rules, you only have to define in the INPUT rules which NEW incoming requests should be allowed, and in the OUTPUT rules which NEW outgoing request are allowed. The established connections will be allowed and should not be redefined (making the configuration a lot more readable and maintainable). An example allowing only an SSH service without using the ESTABLISHED state would be :
 \begin{verbatim}
@@ -182,15 +193,6 @@ As you can see, there is are several benefits of putting the IP addresses in a s
     \item the list of IP addresses in the separate chain can be reused for both ports, so they have to be defined only once.
     \item adding/changing/removing an IP address is much easier
     \item there is a better overview of the firewall rules
-\end{itemize}
-
-\section{Optimizing configuration with an example setup}
-\subsection{Example definition}
-\begin{itemize}
-  \item A web service should be available from all networks (i.e. internet) on port 80 (http) and 443 (https)
-  \item The server can be managed remotely using SSH (port 22) and a webbased admin tool (port 10000), but only from a limited set of IP addresses (admin PC's).
-  \item The server hosts a samba service (several TCP ports), that should only be available from a limited set of IP addresses (admin + webmaster PC's).
-  \item Outgoing connections will be filtered, but some services should be allowed (DNS, DHCP, SMTP, NTP) and some external websites should be available to get updates.
 \end{itemize}
 
 \subsection{Actual configuration}
