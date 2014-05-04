@@ -141,9 +141,9 @@ This is the INPUT chain, allowing :
   \item ICMP packets (ping, etc.) are handled in a seperate chain icmp\_in
   \item some services
   \begin{itemize}
-    \item ssh (tcp 22) and webmin (tcp 10000) allowed for admins (admin\_IP chain)
-    \item website (tcp 80 and 443) for everybody
-    \item samba (tcp 139 and 445) for webmasters (and admins, see definition of webmaster\_IP chain)
+    \item SSH (tcp 22) and webmin (tcp 10000) allowed for admins (admin\_IP chain)
+    \item website (tcp 80 and 443) for everyone
+    \item SMB (tcp 139 and 445) for webmasters (and admins, see definition of webmaster\_IP chain)
   \end{itemize}
   \item everything else is not allowed (dropped)
 \end{itemize}
@@ -167,13 +167,13 @@ The OUTPUT chain, allowing :
 \begin{itemize}
   \item all local traffic (not leaving the physical PC)
   \item established and related connections
-  \item ICMP replies
-  \item some remote services (destination IP addresses of hosting servers are not checked)
+  \item ICMP replies (fe. ping)
+  \item some remote services :
   \begin{itemize}
-    \item dns (udp 53) server
-    \item dhcp (udp 67)
-    \item smtp (tcp 25)
-    \item ntp (udp 123)
+    \item DNS (udp 53) : name service
+    \item DHCP (udp 67) : dynamic IP address service
+    \item SMTP (tcp 25) : mail service
+    \item NTP (udp 123) : time service
   \end{itemize}
   \item external websites (tcp 80), listed in chain ext\_websites
   \item everything else is not allowed (dropped)
@@ -240,7 +240,7 @@ At the end of the list, it jumps to the admin\_IP chain, chaining both chains.
 \end{verbatim}
 
 A list of allowed external websites for updates (mirrors of Debian, webmin and Drupal, in this example).
-All other requests for external websites are logged. This can be useful for monitoring : notification of abuse, or if you forgot to add an allowed website.i
+All other requests for external websites are logged. This can be useful for monitoring : notification of abuse, or if you forgot to add an allowed website.
 
 \section{Conclusion}
 
