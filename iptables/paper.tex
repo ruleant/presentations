@@ -244,11 +244,11 @@ All other requests for external websites are logged. This can be useful for moni
 
 \section{Conclusion}
 \begin{itemize}
-  \item When checking for the ESTABLISHED state, the number of rules can be reduced
+  \item When checking for the ESTABLISHED state, the number of rules can be reduced, because only the initiating packet needs to be checked
   \item Using chains makes your rules better structured which makes them easier to read and better maintainable
   \item Chains can be reused for several rules
   \item Chains can be chained together
-  \item Using chains makes checking rules faster, because it only jumps to a chain when a rule matches. Not all rules have to be checked.
+  \item Using chains makes checking rules faster, because it only jumps to a chain when a rule matches. Not all rules have to be checked
 \end{itemize}
 
 \end{document}
