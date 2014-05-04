@@ -60,7 +60,7 @@ To make your rules more manageable, you can make use of chains in your iptables 
     \item the target : action to be taken when a packet matches
   \end{itemize}
 
-  \subsection{Chains}
+  \subsection{Default chains}
     There are several predefined chains :
     \begin{itemize}
       \item INPUT
@@ -104,7 +104,7 @@ In this example, the benefit of using the connection state is not clear, but whe
 In the first example (without the ESTABLISHED rule), every allowed incoming connection should be repeated in the OUTPUT chain, matching the packets sent for the outgoing connection, which results in an equal amount of rules on both chains.\\
 If you want to do filtering in both directions (allowing incoming request for listening services and outgoing request for remote services), this can become very messy, and almost unmaintainable without making mistakes.\\
 
-\subsection{Introducing chains}
+\subsection{Introducing custom chains}
 When two services (on different ports) should be available to a limited but identical list of IP addresses.
 Without using chains, for every combination of port and IP a rule should be created :
 \begin{verbatim}
@@ -119,12 +119,12 @@ Without using chains, for every combination of port and IP a rule should be crea
 
 Resulting in a lot of rules, and when an IP address has to be changed, added or removed, this has to be done for every corresponding rule.\\
 
-When using chains, this can be much easier. Imagine, that you first check if the packet matches the destination port, and if it does, jump to a new chain, where a list of IP addresses is checked. :
+When using custom chains, this can be much easier. Imagine, that you first check if the packet matches the destination port, and if it does, jump to a new chain, where a list of IP addresses is checked. :
 \begin{verbatim}
-  // create new chain admin_IP
+  // create new custom chain admin_IP
   iptables -N admin_IP
 
-  // add rules to chain admin_IP
+  // add rules to custom chain admin_IP
   iptables -A admin_IP -s 10.100.2.3 -j ACCEPT
   iptables -A admin_IP -s 10.100.2.4 -j ACCEPT
   iptables -A admin_IP -s 10.100.2.7 -j ACCEPT
