@@ -77,6 +77,21 @@ iptables -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT
     \end{verbatim}
 
   \subsection{Filters}
+
+    Filter on packet properties :
+    \begin{itemize}
+      \item protocol (tcp, udp, icmp, \ldots)
+      \item destination/source port
+      \item destination/source IP address
+      \item in/outgoing interface (eth0, \ldots)
+      \item \ldots
+    \end{itemize}
+
+    In this example, the filter matches any TCP packet with destination port 22 (SSH) originating from the 10.0.0.0/8 network :
+    \begin{verbatim}
+iptables -A INPUT -m tcp -p tcp --dport ssh -s 10.0.0.0/8 -j ACCEPT
+    \end{verbatim}
+
   \subsection{Targets}
 
   \subsection{ESTABLISHED state}
