@@ -258,7 +258,7 @@ The OUTPUT chain, allowing :
   \item everything else is not allowed (dropped)
 \end{itemize}
 
-\subsubsection{icmp in chain}
+\subsubsection{ICMP chain}
 
 \begin{verbatim}
   iptables -N icmp_in
@@ -273,7 +273,7 @@ The OUTPUT chain, allowing :
 
 All allowed incoming ICMP message types.
 
-\subsubsection{admin IP chain}
+\subsubsection{admin chain}
 
 \begin{verbatim}
   iptables -N admin_IP
@@ -285,7 +285,7 @@ All allowed incoming ICMP message types.
 
 A list of allowed IP addresses of admin PC's. Everything else is not allowed.
 
-\subsubsection{webmaster IP chain}
+\subsubsection{webmaster chain}
 
 \begin{verbatim}
   iptables -N webmaster_IP
@@ -300,7 +300,7 @@ A list of allowed IP addresses of webmaster PC's.
 At the end of the list, it jumps to the admin\_IP chain, chaining both chains.
 
 
-\subsubsection{external websites chain}
+\subsubsection{External websites chain}
 
 \begin{verbatim}
   iptables -N ext_websites
