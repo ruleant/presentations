@@ -109,6 +109,17 @@ iptables -A INPUT -m tcp -p tcp --dport ssh -s 10.0.0.0/8 -j ACCEPT
 iptables -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT
     \end{verbatim}
 
+    \subsection{Putting it all together}
+    All rules are checked one for one, and if one matches the target is executed, in this case, the packet is accepted :
+    \begin{verbatim}
+iptables -A INPUT -m tcp -p tcp --dport ssh -j ACCEPT
+iptables -A INPUT -m tcp -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT -m tcp -p tcp --dport https -j ACCEPT
+iptables -A INPUT -j DROP
+    \end{verbatim}
+    The last rule matches everything, so if a packet didn't match a previous rule, it will be rejected.\\
+    \textbf{Remark:} the order of the rules is important.
+
   \subsection{ESTABLISHED state}
 When using this option, you can filter for established connections. If you define it in both the INPUT and OUTPUT rules, you only have to define in the INPUT rules which NEW incoming requests should be allowed, and in the OUTPUT rules which NEW outgoing request are allowed. The established connections will be allowed and should not be redefined (making the configuration a lot more readable and maintainable). An example allowing only an SSH service without using the ESTABLISHED state would be :
 \begin{verbatim}
