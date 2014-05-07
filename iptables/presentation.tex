@@ -63,7 +63,7 @@ May 8th, 2014}
     \begin{example}
       \small{-A \textbf{INPUT} -m tcp -p tcp \dd dport ssh -j ACCEPT}
     \end{example}
-    You can define your own chains
+    Custom chains can be defined
   \end{frame}
   \begin{frame}
     \frametitle{Filters}
@@ -109,7 +109,7 @@ May 8th, 2014}
  \end{frame}
   \begin{frame}
     \frametitle{Default target DROP}
-    But you can define default target for the predefined chains:
+    A default target can be set for the predefined chains:
     \begin{example}
       \small{{\color{blue}-P INPUT DROP}\\
       -A INPUT -m tcp -p tcp \dd dport ssh -j ACCEPT\\
