@@ -185,7 +185,7 @@ May 8th, 2014}
       -P OUTPUT ACCEPT}\\
       \pause
       \small{-A INPUT -i lo -j ACCEPT \# allow local traffic\\
-      -A INPUT -p icmp -j ACCEPT \# allow ping\\
+      -A INPUT -p icmp -j ACCEPT \# allow ping, etc\\
       -A INPUT -m state \dd state ESTABLISHED,RELATED -j ACCEPT}
     \end{example}
     Add ESTABLISHED, to allow replies of outgoing connections you intiated!
