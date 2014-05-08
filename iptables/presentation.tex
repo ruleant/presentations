@@ -258,9 +258,17 @@ May 8th, 2014}
     \pause
     \begin{itemize}[<+->]
       \item Syntax of adding rules to a custom chain is similar to adding to default targets.
-      \item Custom chains don't have a default target, so set a target for all packets that are not matched, to avoid jumping back to the previous chain.
+      \item Custom chains don't have a default target, so set a target for all packets that are not matched.
     \end{itemize}
   \end{frame}
+  \begin{frame}
+    \frametitle{Why you should set a default target}
+    Avoid jumping back to the calling chain :
+    \begin{itemize}
+      \item performance issue
+      \item unexpected behaviour, some other rules might match
+    \end{itemize}
+ \end{frame}
   \begin{frame}
     \frametitle{Tutorial use case : sysadmin PCs}
     Add the rules for TCP port 22 and 10000 using the custom chain :
