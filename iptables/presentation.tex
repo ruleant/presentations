@@ -359,8 +359,19 @@ May 8th, 2014}
       ip6tables -A INPUT -p icmp -j ACCEPT \# allow ping, etc\\
       ip6tables -A INPUT -m state \dd state ESTABLISHED,RELATED -j ACCEPT}
     \end{example}
-    Even if IPv4 rules are set, IPv6 has to be configured seperately, otherwise the defaults apply.\\
-    \pause
-    \textbf{IPv6 day (June 6th 2014)} $\rightarrow$ disable IPv4 for one day
+    Even if IPv4 rules are set, IPv6 has to be configured seperately, otherwise the defaults apply.
+  \end{frame}
+  \begin{frame}
+    \frametitle{IPv6 only day}
+    \begin{columns}
+      \begin{column}{5cm}
+        \includegraphics[scale=.3]{pictures/World_IPv6_launch_badge_512.png}
+      \end{column}
+      \begin{column}{6cm}
+        \textbf{June 6th 2014}\\
+
+        Disable IPv4 for one day!
+      \end{column}
+    \end{columns}
   \end{frame}
 \end{document}
