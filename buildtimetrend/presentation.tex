@@ -1,0 +1,65 @@
+\documentclass[14pt]{beamer}
+\usepackage{hyperref}
+\usepackage{ulem}
+\usepackage[T1]{fontenc}
+\usetheme{Madrid}
+
+% macro for double dash
+\newcommand{\dd}{{\texttt{-{}-}}}
+
+%% Enable license helpers
+\graphicspath{{../cc_beamer/}}
+\input{../cc_beamer/cc_beamer}
+
+\title[Buildtime Trend]{Buildtime Trend}
+\author{Dieter Adriaenssens}
+\institute[Buildtime Trend]{@dcadriaenssens - Buildtime Trend}
+\date[NewLine 5Apr2015]{NewLine - Ghent\\
+April 5th, 2015}
+\subject{Buildtime Trend}
+\begin{document}
+  \begin{frame}
+  \titlepage
+  \vfill
+    \begin{center}
+      \CcGroupByNcSa{0.83}{0.95ex}\\[2.5ex]
+        {\tiny\CcNote{\CcLongnameByNcSa}}
+        \vspace*{-2.5ex}
+    \end{center}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Overview}
+    \begin{itemize}
+      \item Brief introduction to iptables/netfilter
+      \item Optimizing configuration with a tutorial use case
+      \item Conclusion
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{What is iptables/netfilter?}
+    %(question to audience : who knows/uses iptables?)
+    Iptables is a tool for creating the rulesets for netfilter, a packet filtering framework which was introduced in the linux 2.4 kernel
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Conclusion}
+    \begin{itemize}
+      \item use ESTABLISHED state to reduce number of rules
+      \item using chains makes your rules easier readable and maintainable
+      \item chains can be reused for several rules
+      \item chains can be chained together
+      \item faster, because it only jumps to a chain when a rule matches
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+   \frametitle{Questions}
+    Thanks for your attention!\\
+    Questions?
+    \vfill
+    Contact
+    \begin{itemize}
+      \item Blog : \href{http://ruleant.blogspot.com/}{http://ruleant.blogspot.com}
+      \item Twitter : \href{https://twitter.com/dcadriaenssens}{@dcadriaenssens}
+    \end{itemize}
+  \end{frame}
+\end{document}
