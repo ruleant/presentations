@@ -8,7 +8,7 @@ Installation
 
 To install (on Debian/Ubuntu/...) :
 
-`apt-get install latex-beamer`
+`apt-get install latex-beamer texlive-fonts-recommended`
 
 Usage
 -----
