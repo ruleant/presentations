@@ -44,9 +44,68 @@ April 5th, 2015}
     %(question to audience : who knows/uses iptables?)
   \end{frame}
   \begin{frame}
+    \frametitle{It started with an itch}
+    \begin{itemize}
+      \item Some builds took longer than others
+      \item no timing information was present in the logs
+      \item which stage took longer?
+    \end{itemize}
+    \pause
+    \textbf{Solution:} create a script to generate timestamps
+  \end{frame}
+  \begin{frame}
+    \frametitle{Next step : calculate duration and generate chart}
+    Requirements :
+    \begin{itemize}
+      \item script to parse the generated timestamps
+      \item calculate duration of the stages
+      \item store the timing data of every build
+      \item use this data to generate the chart
+    \end{itemize}
+    \pause
+    One solution : bash + CSV + gnuplot\\
+    \pause
+    Another solution : Python + XML + matplotlib
+  \end{frame}
+  \begin{frame}
+    \frametitle{Problem}
+    I hadn't used Python before.\\
+    \pause
+    A good opportunity to learn Python!
+  \end{frame}
+  \begin{frame}
+    \frametitle{Learning Python}
+    \begin{itemize}
+      \item start with a tutorial
+      \item read documentation
+      \item ask Google and Stack Overflow
+      \item talk to a friend or colleague
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Other helpful things}
+    \begin{itemize}
+      \item check coding style
+        \begin{itemize}
+          \item commandline : pep8, pylint
+          \item online tools : Landscape.io, Scrutinizer
+        \end{itemize}
+      \item unit testing and test driven development (TDD)
+      \item code coverage
+      \item automate this with Continuous Integration (CI) : Travis CI
+      \item version control : Git, GitHub, ...
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Proof of concept}
+    Collection of Bash and Python scripts, generating, analysing and visualising timing data:
+  \end{frame}
+
+  \begin{frame}
     \frametitle{Lessons learned}
     \begin{itemize}
       \item keep it simple
+      \item (re)use as much existing tools as possible
     \end{itemize}
   \end{frame}
   \begin{frame}
