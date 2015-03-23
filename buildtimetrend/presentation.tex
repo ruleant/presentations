@@ -11,16 +11,16 @@
 \graphicspath{{../cc_beamer/}}
 \input{../cc_beamer/cc_beamer}
 
-\title[Buildtime Trend]{Buildtime Trend}
+\title[Buildtime Trend : What, why and how]{Buildtime Trend : What's trending in your build process}
 \author{Dieter Adriaenssens}
-\institute[Buildtime Trend]{@dcadriaenssens - Buildtime Trend}
+\institute[Buildtime Trend]{@dcadriaenssens - Founder, developer Buildtime Trend}
 \date[NewLine 5Apr2015]{NewLine - Ghent\\
 April 5th, 2015}
 \subject{Buildtime Trend}
 \begin{document}
   \begin{frame}
-  \titlepage
-  \vfill
+    \titlepage
+    \vfill
     \begin{center}
       \CcGroupByNcSa{0.83}{0.95ex}\\[2.5ex]
         {\tiny\CcNote{\CcLongnameByNcSa}}
@@ -30,25 +30,20 @@ April 5th, 2015}
   \begin{frame}
     \frametitle{Overview}
     \begin{itemize}
-      \item Brief introduction to iptables/netfilter
-      \item Optimizing configuration with a tutorial use case
-      \item Conclusion
+      \item What is Buildtime Trend
+      \item Why and how
+      \item Demo
+      \item Lessons learned
     \end{itemize}
   \end{frame}
   \begin{frame}
-    \frametitle{What is iptables/netfilter?}
+    \frametitle{What is Buildtime Trend?}
     %(question to audience : who knows/uses iptables?)
-    Iptables is a tool for creating the rulesets for netfilter, a packet filtering framework which was introduced in the linux 2.4 kernel
   \end{frame}
-
   \begin{frame}
-    \frametitle{Conclusion}
+    \frametitle{Lessons learned}
     \begin{itemize}
-      \item use ESTABLISHED state to reduce number of rules
-      \item using chains makes your rules easier readable and maintainable
-      \item chains can be reused for several rules
-      \item chains can be chained together
-      \item faster, because it only jumps to a chain when a rule matches
+      \item keep it simple
     \end{itemize}
   \end{frame}
   \begin{frame}
@@ -58,8 +53,8 @@ April 5th, 2015}
     \vfill
     Contact
     \begin{itemize}
-      \item Blog : \href{http://ruleant.blogspot.com/}{http://ruleant.blogspot.com}
-      \item Twitter : \href{https://twitter.com/dcadriaenssens}{@dcadriaenssens}
+      \item Website : \href{https://buildtimetrend.github.io/}{https://buildtimetrend.github.io/}
+      \item Twitter : \href{https://twitter.com/buildtime_trend}{@buildtime\_trend}
     \end{itemize}
   \end{frame}
 \end{document}
