@@ -80,6 +80,7 @@ April 5th, 2015}
       \item read documentation
       \item ask Google and Stack Overflow
       \item get advice from a friend or colleague
+      \item go to talks and conferences
     \end{itemize}
   \end{frame}
   \begin{frame}
@@ -99,13 +100,119 @@ April 5th, 2015}
   \begin{frame}
     \frametitle{Proof of concept}
     Collection of Bash and Python scripts, generating, analysing and visualising timing data:
+    <show picture of matplotlib chart>
+  \end{frame}
+  \begin{frame}
+    \frametitle{Limitations}
+    \begin{itemize}
+      \item scalability of XML
+      \item querying data is limited
+      \item developing new charts is not efficient
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Integration with Travis CI}
+    Call Buildtime Trend scripts in .travis.yml file
+    \begin{itemize}
+      \item generate timestamps
+      \item install dependencies
+      \item analyze timestamps and generate chart
+      \item store timing data (XML) and chart in gh-pages
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Integration with Travis CI}
+    This is not ideal!
+    \begin{itemize}
+      \item scripts become part of the build process
+      \item build duration is influenced
+      \item complicated to set up
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Integration with Travis CI}
+    Possible solutions
+    \begin{itemize}
+      \item create a service that analyses the logfile after the build is finished
+      \item store the data in a database outside Travis
+      \item host the generated chart(s) outside Travis
+    \end{itemize}
+    But how?
+  \end{frame}
+  \begin{frame}
+    \frametitle{Keen.io}
+    <insert Keen.io logo>
+    Keen IO's powerful APIs do the heavy lifting for you, so you can gather all the data you want and start getting the answers you need. 
+  \end{frame}
+  \begin{frame}
+    \frametitle{Keen.io}
+    \begin{itemize}
+      \item gather data
+      \item store it
+      \item analyse
+      \item visualise
+      \item support for several languages, including Python
+    \end{itemize}
+    Great : this solves the data storage and chart generation problem!
+  \end{frame}
+  \begin{frame}
+    \frametitle{First release}
+    Dashboard :\\
+    <show picture of first dashboard>
+  \end{frame}
+  \begin{frame}
+    \frametitle{First release}
+    \begin{itemize}
+      \item scripts tightly coupled with Travis CI build
+      \item storing in XML and chart generation with matplotlib (native mode)
+      \item storing and chart generation with Keen.io
+      \item chart dashboard deployed to gh-pages
+    \end{itemize}
+   Yeah, it works!\\
+    \pause
+    But there is still room for improvement.
+  \end{frame}
+  \begin{frame}
+    \frametitle{Travis CI timing data}
+    Good news!\\
+    Travis CI announces adding timing data to their logs!\\
+  \end{frame}
+  \begin{frame}
+    \frametitle{Create a service}
+    \begin{itemize}
+      \item get Travis CI build logfile
+      \item parse the timing data
+      \item store data in Keen.io
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Rearrange project structure}
+    Create organisation on GitHub to host the different repositories :
+    \begin{itemize}
+      \item service
+      \item client
+      \item library (with common functionality)
+      \item dashboard
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Challenges}
+    \begin{itemize}
+      \item hosting the service
+      \item triggering the service at the end of a build
+      \item let the subprojects work together
+      \item Open Source license
+      \item business model
+    \end{itemize}
   \end{frame}
 
   \begin{frame}
     \frametitle{Lessons learned}
     \begin{itemize}
-      \item keep it simple
+      \item start simple
       \item (re)use as much existing tools as possible
+      \item start with what you know, learn new skills as you progress
+      \item try, even if it is all scary at first
     \end{itemize}
   \end{frame}
   \begin{frame}
@@ -113,7 +220,7 @@ April 5th, 2015}
     Thanks for your attention!\\
     Questions?
     \vfill
-    Contact
+    Buildtime Trend
     \begin{itemize}
       \item Website : \href{https://buildtimetrend.github.io/}{https://buildtimetrend.github.io/}
       \item Twitter : \href{https://twitter.com/buildtime_trend}{@buildtime\_trend}
