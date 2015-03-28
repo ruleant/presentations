@@ -57,10 +57,10 @@ April 5th, 2015}
     \frametitle{Next step : calculate duration and generate chart}
     Requirements :
     \begin{itemize}
-      \item script to parse the generated timestamps
+      \item parse the generated timestamps
       \item calculate duration of the stages
       \item store the timing data of every build
-      \item use this data to generate the chart
+      \item generate the chart
     \end{itemize}
     \pause
     One solution : bash + CSV + gnuplot\\
@@ -161,14 +161,14 @@ April 5th, 2015}
     <show picture of first dashboard>
   \end{frame}
   \begin{frame}
-    \frametitle{First release}
+    \frametitle{First release - features}
     \begin{itemize}
       \item scripts tightly coupled with Travis CI build
       \item storing in XML and chart generation with matplotlib (native mode)
       \item storing and chart generation with Keen.io
       \item chart dashboard deployed to gh-pages
     \end{itemize}
-   Yeah, it works!\\
+    Yeah, it works!\\
     \pause
     But there is still room for improvement.
   \end{frame}
