@@ -205,6 +205,40 @@ April 5th, 2015}
       \item business model
     \end{itemize}
   \end{frame}
+  \begin{frame}
+    \frametitle{Hosting the service}
+    \begin{itemize}
+      \item CherryPy turns scripts into webservice
+        \begin{itemize}
+          \item dashboard
+          \item badge
+          \item parse buildlog
+        \end{itemize}
+      \item service hosted on Heroku : \href{https://buildtimetrend.herokuapp.com/}{https://buildtimetrend.herokuapp.com/}
+      \item deploy to Heroku with Travis CI build
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Travis CI triggers service}
+    Trigger the service at the end of a Travis CI build in .travis.yml :
+    \begin{example}
+      \small{notifications:\\
+      \ \ webhooks:\\
+      \ \ \ \ - https://buildtimetrend.herokuapp.com/travis}
+    \end{example}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Travis CI triggers service}
+    \begin{itemize}
+      \item A payload with build data is sent
+      \item service identifies repo and build ID
+      \item build job data and logfiles are retrieved from Travis CI
+      \item build job logfiles are parsed looking for timing tags
+      \item build stages duration is calculated
+      \item build job data is sent to Keen.io
+    \end{itemize}
+  \end{frame}
+
 
   \begin{frame}
     \frametitle{Lessons learned}
