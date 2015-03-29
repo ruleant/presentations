@@ -194,6 +194,7 @@ April 5th, 2015}
       \item library (with common functionality)
       \item dashboard
     \end{itemize}
+    <Add project schema>
   \end{frame}
   \begin{frame}
     \frametitle{Challenges}
@@ -217,6 +218,19 @@ April 5th, 2015}
       \item service hosted on Heroku : \href{https://buildtimetrend.herokuapp.com/}{https://buildtimetrend.herokuapp.com/}
       \item deploy to Heroku with Travis CI build
     \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Deploy to Heroku during Travis CI build}
+    In .travis.yml :
+    \begin{example}
+      \small{deploy:\\
+      \ \ provider: heroku\\
+      \ \ api\_key:\\
+      \ \ \ \ secure: <secure key>\\
+      \ \ app:\\
+      \ \ \ \ deploy-prod: buildtimetrend}
+    \end{example}
+    Branch 'deploy-prod' is deployed to \href{https://buildtimetrend.herokuapp.com/}{https://buildtimetrend.herokuapp.com/}
   \end{frame}
   \begin{frame}
     \frametitle{Travis CI triggers service}
