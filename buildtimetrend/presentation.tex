@@ -191,12 +191,28 @@ April 5th, 2015}
   \begin{frame}
     \frametitle{Challenges}
     \begin{itemize}
-      \item hosting the service
-      \item triggering the service at the end of a build
       \item let the subprojects work together
       \item Open Source license
+      \item hosting the service
+      \item triggering the service at the end of a build
       \item business model
     \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Combine subprojects}
+    \begin{itemize}
+    \item Client and service use dashboard : git submodule
+    \item Client and service use library :
+      \begin{itemize}
+        \item create Python package \textit{buildtimetrend}
+        \item available on \textit{pypi}
+        \item install as dependency
+      \end{itemize}
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Open Source license}
+    Transition from GNU General Public License (GPL) v3 to Affero GPLv3
   \end{frame}
   \begin{frame}
     \frametitle{Hosting the service}
