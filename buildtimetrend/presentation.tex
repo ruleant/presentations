@@ -252,12 +252,25 @@ April 5th, 2015}
   \begin{frame}
     \frametitle{Travis CI triggers service}
     \begin{itemize}
-      \item A JSON payload with build data is sent
+      \item a JSON payload with build data is sent
       \item service identifies repo and build ID
       \item build job data and logfiles are retrieved from Travis CI
       \item build job logfiles are parsed looking for timing tags
       \item build stages duration is calculated
       \item build job data is sent to Keen.io
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Business model}
+    \begin{itemize}
+      \item offering the service costs money
+        \begin{itemize}
+	  \item hosting the service
+          \item storing the data
+        \end{itemize}
+      \item Github inspired business model : free for Open Source, paying for private repos
+      \item \href{https://keen.io}{Keen.io} offered to host data for free for Open Source projects. \textbf{Thanks, guys!}
+      \item Further development with real data gathering : better feedback
     \end{itemize}
   \end{frame}
   \begin{frame}
