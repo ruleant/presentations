@@ -1,0 +1,169 @@
+\documentclass[14pt]{beamer}
+\usepackage{hyperref}
+\usepackage{ulem}
+\usepackage[T1]{fontenc}
+\usetheme{Madrid}
+
+%% Enable license helpers
+\graphicspath{ {../cc_beamer/}{pictures/} }
+\input{../cc_beamer/cc_beamer}
+
+\logo{
+  \includegraphics[scale=.1]{logo_buildtimetrend.png}
+}
+\title[Buildtime Trend]{Buildtime Trend}
+\subtitle{What's trending in your build process}
+\author{Dieter Adriaenssens}
+\institute[]{Buildtime Trend founder \& developer - @dcadriaenssens}
+\date[FOSDEM 2016]{FOSDEM 2016 - Brussels\\
+January 31st, 2016}
+\subject{Buildtime Trend}
+\begin{document}
+  \begin{frame}
+    \titlepage
+    \vfill
+    \begin{center}
+      \CcGroupByNcSa{0.83}{0.95ex}\\[2.5ex]
+        {\tiny\CcNote{\CcLongnameByNcSa}}
+        \vspace*{-2.5ex}
+    \end{center}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Overview}
+    \begin{itemize}
+      \item What is Buildtime Trend?
+      \item How does it work?
+      \item How to start using it
+      \item Demo
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{What is Buildtime Trend?}
+    Buildtime Trend is an Open Source application that uses (timing) data to visualise trends in a build process.
+  \end{frame}
+  \begin{frame}
+    \frametitle{It started with an itch}
+    I was working on a project that was built on Travis CI:
+    \begin{itemize}
+      \item some builds took longer than others
+      \item no timing information was present in the logs
+      \item which stage took longer?
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Proof of concept}
+    Collection of Bash and Python scripts, generating, analysing and visualising timing data:
+    \includegraphics[scale=.45]{example_matplotlib_trend.png}
+  \end{frame}
+  \begin{frame}
+    \frametitle{How it works}
+    Service :
+    \begin{itemize}
+      \item get Travis CI build logfile
+      \item parse the (timing) data
+      \item store data
+      \item visualise using a dashboard with trends
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Keen.io}
+    \includegraphics[scale=.20]{keenio_workflow.png}\\
+    Keen IO's powerful APIs do the heavy lifting for you, so you can gather all the data you want and start getting the answers you need.
+  \end{frame}
+  \begin{frame}
+    \frametitle{First release - dashboard}
+    \includegraphics[scale=.45]{example_dashboard.png}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Hosting the service}
+    \begin{itemize}
+      \item CherryPy turns scripts into webservice
+        \begin{itemize}
+          \item dashboard
+          \item badges
+          \item parse buildlog
+        \end{itemize}
+      \item service hosted on Heroku : \href{https://buildtimetrend.herokuapp.com/}{https://buildtimetrend.herokuapp.com/}
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{How to use it}
+    Trigger the service at the end of a Travis CI build in \textit{.travis.yml} :
+    \begin{example}
+      \small{notifications:\\
+      \ \ webhooks:\\
+      \ \ \ \ - https://buildtimetrend.herokuapp.com/travis}
+    \end{example}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Business model}
+    \begin{itemize}
+      \item offering the service costs money
+        \begin{itemize}
+	  \item hosting the service
+          \item storing the data
+        \end{itemize}
+      \item Github inspired business model : free for Open Source, paying for private repos
+      \item \href{https://keen.io}{Keen.io} offered to host data for free for Open Source projects. \textbf{Thanks, guys!}
+      \item Further development with real data gathering : better feedback
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Future development}
+    \begin{itemize}
+      \item caching for badges and dashboard charts
+      \item support private Github repos
+      \item support other CI platforms (Jenkins, ...)
+      \item more and improved metrics and trends
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Contributions welcome}
+    \begin{itemize}
+      \item use and test the service
+      \item report bugs
+      \item suggest improvements
+      \item clone the project and send pull requests
+      \begin{itemize}
+        \item implement a feature
+        \item fix a bug
+        \item add a new chart
+        \item improve dashboard layout
+        \item \ldots
+      \end{itemize}
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Demo}
+    \begin{itemize}
+      \item Service : \href{https://buildtimetrend.herokuapp.com/}{\small{https://buildtimetrend.herokuapp.com/}}
+      \item Dashboard : \href{https://buildtimetrend.herokuapp.com/dashboard/buildtimetrend/python-lib/index.html}{\small{https://buildtimetrend.herokuapp.com/dashboard/buildtimetrend/python-lib}}
+      \item Badges : \href{https://github.com/buildtimetrend/service\#badge-examples}{\small{https://github.com/buildtimetrend/service\#badge-examples}}
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+    \frametitle{Acknowledgements}
+    Big thanks to
+    \begin{itemize}
+      \item The nice people of Keen.io, for their invaluable support!
+      \item the Open Source projects testdriving the service
+      \item all the \href{https://github.com/buildtimetrend/python-lib/wiki/Credits}{services} that power the project
+    \end{itemize}
+  \end{frame}
+  \begin{frame}
+   \frametitle{Questions}
+    Thanks for your attention!\\
+    Questions?
+    \vfill
+    Dieter Adriaenssens - \href{https://twitter.com/dcadriaenssens}{\small{@dcadriaenssens}}
+    \vfill
+    Presentation available on \href{https://ruleant.github.io/presentations/}{\small{https://ruleant.github.io/presentations/}}
+    \vfill
+    Buildtime Trend
+    \begin{itemize}
+      \item Website : \href{https://buildtimetrend.github.io/}{\small{https://buildtimetrend.github.io/}}
+      \item Service : \href{https://buildtimetrend.herokuapp.com/}{\small{https://buildtimetrend.herokuapp.com/}}
+      \item Twitter : \href{https://twitter.com/buildtime_trend}{\small{@buildtime\_trend}}
+    \end{itemize}
+  \end{frame}
+\end{document}
