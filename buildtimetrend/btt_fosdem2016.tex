@@ -48,8 +48,12 @@ January 31st, 2016}
   \end{frame}
   \begin{frame}
     \frametitle{Proof of concept}
-    Collection of Bash and Python scripts, generating, analysing and visualising timing data:
+    A script to generate a chart with duration of build stages :
     \includegraphics[scale=.45]{example_matplotlib_trend.png}
+  \end{frame}
+  \begin{frame}
+    \frametitle{First release - dashboard}
+    \includegraphics[scale=.45]{example_dashboard.png}
   \end{frame}
   \begin{frame}
     \frametitle{What is Buildtime Trend?}
@@ -57,12 +61,12 @@ January 31st, 2016}
   \end{frame}
   \begin{frame}
     \frametitle{How it works}
-    Service :
+    Webservice is triggered at the end of a build :
     \begin{itemize}
-      \item get Travis CI build logfile
+      \item download Travis CI build logfile
       \item parse the (timing) data
       \item store data
-      \item visualise using a dashboard with trends
+      \item visualise using a dashboard with charts
     \end{itemize}
   \end{frame}
   \begin{frame}
@@ -71,17 +75,13 @@ January 31st, 2016}
     Keen IO's powerful APIs do the heavy lifting for you, so you can gather all the data you want and start getting the answers you need.
   \end{frame}
   \begin{frame}
-    \frametitle{First release - dashboard}
-    \includegraphics[scale=.45]{example_dashboard.png}
-  \end{frame}
-  \begin{frame}
     \frametitle{Hosting the service}
     \begin{itemize}
       \item CherryPy turns scripts into webservice
         \begin{itemize}
           \item dashboard
           \item badges
-          \item parse buildlog
+          \item buildlog parser
         \end{itemize}
       \item service hosted on Heroku : \href{https://buildtimetrend.herokuapp.com/}{https://buildtimetrend.herokuapp.com/}
     \end{itemize}
