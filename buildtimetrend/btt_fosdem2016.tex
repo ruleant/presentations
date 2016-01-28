@@ -15,7 +15,7 @@
 \subtitle{What's trending in your build process}
 \author{Dieter Adriaenssens}
 \institute[]{Buildtime Trend founder \& developer - @dcadriaenssens}
-\date[FOSDEM 2016]{FOSDEM 2016 - Brussels\\
+\date[FOSDEM 2016]{FOSDEM 2016\\
 January 31st, 2016}
 \subject{Buildtime Trend}
 \begin{document}
@@ -38,12 +38,8 @@ January 31st, 2016}
     \end{itemize}
   \end{frame}
   \begin{frame}
-    \frametitle{What is Buildtime Trend?}
-    Buildtime Trend is an Open Source application that uses (timing) data to visualise trends in a build process.
-  \end{frame}
-  \begin{frame}
     \frametitle{It started with an itch}
-    I was working on a project that was built on Travis CI:
+    Project with unreliable builds on Travis CI:
     \begin{itemize}
       \item some builds took longer than others
       \item no timing information was present in the logs
@@ -54,6 +50,10 @@ January 31st, 2016}
     \frametitle{Proof of concept}
     Collection of Bash and Python scripts, generating, analysing and visualising timing data:
     \includegraphics[scale=.45]{example_matplotlib_trend.png}
+  \end{frame}
+  \begin{frame}
+    \frametitle{What is Buildtime Trend?}
+    Buildtime Trend is an Open Source application that uses (timing) data to visualise trends in a build process
   \end{frame}
   \begin{frame}
     \frametitle{How it works}
